@@ -45,6 +45,8 @@
     "stylelint-order": "5.0.0",
     "to-mock": "1.6.2",
     "ts-jest": "^25.5.1",
+    "typedoc": "^0.22.12",
+    "typedoc-plugin-rename-defaults": "^0.4.0",
     "typescript": "^4.5.5",
     "verdaccio": "4.5.1"
   },
@@ -52,6 +54,7 @@
     "postinstall": "npm install --prefix ./packages/devtools && lerna bootstrap",
     "benchmark": "utils/benchmark/benchmark.sh",
     "doc": "gulp doc",
+    "typedoc": "typedoc --tsconfig ./packages/core/tsconfig.json",
     "test": "lerna run test && npm run --prefix ./packages/devtools test",
     "release": "lerna version --force-publish create-ima-app",
     "release:next": "npm run release -- prerelease",
