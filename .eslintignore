@@ -1,5 +1,6 @@
 /docs
 /doc
+/docs-typedoc
 /node_modules
 /packages/*/dist
 /packages/*/coverage

@@ -8,7 +8,7 @@ const { vendors } = require('./build');
 function generateConfig(environemnt) {
   return {
     external: vendors.common,
-    input: 'src/main.js',
+    input: 'src/main.ts',
     treeshake: {
       pureExternalModules: true,
     },

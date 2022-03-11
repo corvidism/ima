@@ -96,6 +96,10 @@ import ClientWindow from './window/ClientWindow';
 import { version } from '../package.json';
 /* eslint-enable no-unused-vars */
 
+// FIXME more specific type
+declare const $IMA: Record<string, unknown>;
+declare const $Debug: Record<string, unknown>;
+
 function getInitialImaConfigFunctions() {
   return { initBindIma, initServicesIma };
 }
@@ -117,14 +121,14 @@ function _isClient() {
 }
 
 function createImaApp() {
-  let oc = new ObjectContainer(ns);
-  let bootstrap = new Bootstrap(oc);
+  const oc = new ObjectContainer(ns);
+  const bootstrap = new Bootstrap(oc);
 
   return { oc, bootstrap };
 }
 
 function getClientBootConfig(initialAppConfigFunctions) {
-  let root = _getRoot();
+  const root = _getRoot();
 
   if ($Debug && _isClient()) {
     if ($IMA.$Protocol !== root.location.protocol) {
@@ -144,7 +148,7 @@ function getClientBootConfig(initialAppConfigFunctions) {
     }
   }
 
-  let bootConfig = {
+  const bootConfig = {
     services: {
       respond: null,
       request: null,
@@ -188,14 +192,14 @@ function bootClientApp(app, bootConfig) {
 
   $IMA.$Dispatcher = app.oc.get('$Dispatcher');
 
-  let cache = app.oc.get('$Cache');
+  const cache = app.oc.get('$Cache');
   cache.deserialize($IMA.Cache || {});
 
   return app;
 }
 
 function routeClientApp(app) {
-  let router = app.oc.get('$Router');
+  const router = app.oc.get('$Router');
 
   return router
     .listen()
@@ -212,14 +216,15 @@ function routeClientApp(app) {
 }
 
 function reviveClientApp(initialAppConfigFunctions) {
-  let root = _getRoot();
+  const root = _getRoot();
 
   //set React for ReactJS extension for browser
+  // @ts-ignore
   root.React = vendorLinker.get('react');
   root.$Debug = root.$IMA.$Debug;
 
   let app = createImaApp();
-  let bootConfig = getClientBootConfig(initialAppConfigFunctions);
+  const bootConfig = getClientBootConfig(initialAppConfigFunctions);
   app = bootClientApp(app, bootConfig);
 
   return routeClientApp(app).then(pageInfo => {
@@ -238,7 +243,7 @@ function onLoad() {
     return new Promise(resolve => setTimeout(resolve, 1000 / 60));
   }
 
-  return new Promise(resolve => {
+  return new Promise<void>(resolve => {
     document.addEventListener('DOMContentLoaded', () => resolve(), {
       once: true,
     });
